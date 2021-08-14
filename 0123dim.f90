@@ -1798,7 +1798,7 @@ use util
 use function
 use GUI
 implicit real*8 (a-h,o-z)
-character c200tmp*200,c2000tmp*2000,outcubfile*200
+character c200tmp*200,c2000tmp*2000,outcubfile*200,outsbffile*200
 real*8 :: tmpvec(3)
 integer,allocatable :: tmparrint(:)
 
@@ -2128,6 +2128,7 @@ else !Calculate grid data
 		write(*,*) "6 Divide all grid data by a factor"
 		write(*,*) "7 Add a value to all grid data"
 		write(*,*) "8 Substract a value from all grid data"
+		write(*,*) "666 Export data to TopMod sbf file in current folder"
 		read(*,*) i
 		
 		if (i==-1) then
@@ -2176,6 +2177,9 @@ else !Calculate grid data
 			write(*,*) "Input a value, e.g. 1.5"
 			read(*,*) tmpval
 			cubmat=cubmat-tmpval
+		else if (i==666) then
+			outsbffile = outcubfile(1 : (len_trim(outcubfile) - 4))//'.sbf'
+			call outsbf(outsbffile,cubmat,nx,ny,nz,orgx,orgy,orgz,dx,dy,dz)
 		end if
 	end do
 end if

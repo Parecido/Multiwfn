@@ -4588,6 +4588,37 @@ end do
 end subroutine
 
 
+!!! TopMod SBF
+subroutine outsbf(outsbffile,matrix,numx,numy,numz,org_x,org_y,org_z,transx,transy,transz)
+use defvar
+implicit real*8 (a-h,o-z)
+character outsbffile*200
+integer numx,numy,numz,fileid,increment,file_size
+real*8 org_x,org_y,org_z,transx,transy,transz,xmax,xmay,xmaz
+real*8 matrix(numx,numy,numz)
+real,dimension(:),allocatable :: sbf
+allocate(sbf(numx*numy*numz))
+increment=1
+do i=1,numx
+	do j=1,numy
+		do k=1,numz
+			sbf(increment)=matrix(i,j,k)
+			increment=increment+1
+		end do
+	end do
+end do
+xmax = transx * (numx - 1) + org_x
+ymax = transy * (numy - 1) + org_y
+zmax = transz * (numz - 1) + org_z
+open(10,file=outsbffile,status='unknown',form='unformatted')
+write(10) numx, numy, numz
+write(10) org_x, xmax, org_y, ymax, org_z, zmax 
+write(10) sbf
+close(10)
+write(*,"(' New grid sbf file has been outputted to: ',a35)") adjustl(outsbffile)
+end subroutine
+
+
 !!!------------------------- Output current wavefunction to a .wfn
 !If isortatmind==1, then any atom without GTF posited on it will not be output, and the index is filled to assure contiguous
 !Orbitals with zero occupiation will not be outputted
