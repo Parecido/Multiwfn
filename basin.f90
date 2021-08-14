@@ -469,8 +469,8 @@ do while(.true.)
 				write(*,*) "2 Set corresponding grids as unassigned status"
 				write(*,*) "3 Assign corresponding grids to the nearest significant attractors"
 				write(*,*) "Hint: For most cases, option 3 is recommended"
-				read(*,*) isel2
-				call elimlowvalatt(threslowvalatt,isel2)
+				write(*,*) "THIS IS EDITED VERSION OF MULTIWFN: OPTION 3 IS DEFAULT"
+				call elimlowvalatt(threslowvalatt,3)
 				exit
 			end if
 		end do
